@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>基于图文一致性的虚假新闻检测系统设计实现</title>
+    <script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://libs.baidu.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 80%;
+        }
+
+        button {
+            border: #c8c8c8 solid 1px;
+            margin-left: 20px;
+            height: 40px;
+            color: #ffffff;
+            border-radius: 2px;
+        }
+
+        .form-ul {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .bk {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bk img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .col-xs-3 {
+            margin: 20px auto;
+        }
+
+        .col-xs-3 ul li {
+            list-style-type: none;
+            line-height: 40px;
+            color: #ffffff;
+            margin-left: 40px;
+            width: 120px;
+            text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: 'Georgia', serif;
+            font-size: 28px;
+            color: #333;
+        }
+
+        .col-xs-3 ul {
+            display: flex;
+            background-color: #409EFF;
+            height: 40px;
+        }
+
+        .col-xs-3 ul li:hover {
+            background-color: #7cbdff;
+        }
+
+        .btn {
+            display: flex;
+            justify-content: center;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+
+<body data-spy="scroll" data-target="#myScrollspy">
+    <div class="container">
+        <div class="jumbotron">
+            <h1>基于图文一致性的虚假新闻检测系统设计实现</h1>
+        </div>
+        <div class="row">
+            <div class="col-xs-3" id="myScrollspy">
+                <ul class="nav nav-tabs nav-stacked" id="myNav">
+                    <li>
+                        新闻检测
+                    </li>
+                    <li onclick="check_a()">
+                        退出系统
+                    </li>
+                </ul>
+            </div>
+            <div class="bk">
+                <img src="../static/3.png">
+            </div>
+            <div class="col-xs-9">
+                <h2 id="section-1">数据提交</h2>
+                <form name="pay" method="post" enctype="multipart/form-data">
+                    <fieldset>
+                        <ul class="form-ul">
+                            <li>
+                                <b style="font-family: Georgia;font-size: 20px;width: 200px;color: cornflowerblue">请选择文本数据：</b><br>
+                                <textarea id="textArea" name="text" cols="20" rows="5">默认文本</textarea>
+                                <input id="files" type="file">
+                            </li>
+                            <li>
+                                <b style="font-family: Georgia;font-size: 20px;width: 200px;color: cornflowerblue">请选择OCR数据：</b><br>
+                                <textarea id="textOCR" name="textOCR" cols="20" rows="5">默认OCR文本</textarea>
+                                <input id="filesOCR" type="file">
+                            </li>
+                            <li>
+                                <b style="font-family: Georgia;font-size: 20px; color: cornflowerblue">请选择图像数据：</b><br>
+                                <input type="file" required="required" name="photo" id="input_img" size="60"></input>
+                                <div id="show_img"></div>
+                                <br>
+                            </li>
+                        </ul>
+
+                        <div class="btn">
+                            <button type="button" class="but" style="font-size: 15px;background-color:#409EFF;width: 150px" onclick="zhi()">
+                                新闻内容处理
+                            </button>
+                            <button type="button" class="but" style="font-size: 15px;background-color: #409EFF;width: 150px" onclick="wei()">
+                                开始检测新闻
+                            </button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var getUserPhoto = document.getElementById("input_img");
+        getUserPhoto.onchange = function () {
+            var file = this.files[0]; // Ensure we are getting the first file
+            if (file) {
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    var image = document.createElement("img");
+                    image.width = "200";
+                    image.src = this.result; // Use 'this.result' to access the file data
+                    var showPicture = document.getElementById("show_img");
+                    showPicture.innerHTML = ""; // Clear the container before adding new image
+                    showPicture.appendChild(image);
+                };
+            }
+        };
+
+        $(function () {
+            $("#files").change(function () {
+                fileUpload_onselect();
+            });
+
+            function fileUpload_onselect() {
+                var selectedFile = document.getElementById("files").files[0];
+                if (selectedFile) {
+                    var reader = new FileReader();
+                    reader.readAsText(selectedFile, 'utf-8');
+                    reader.onload = function (oFREvent) {
+                        var pointsTxt = oFREvent.target.result;
+                        $("#textArea").val(pointsTxt);
+                    };
+                }
+            }
+
+            $("#filesOCR").change(function () {
+                fileUploadOCR_onselect();
+            });
+
+            function fileUploadOCR_onselect() {
+                var selectedFile = document.getElementById("filesOCR").files[0];
+                if (selectedFile) {
+                    var reader = new FileReader();
+                    reader.readAsText(selectedFile, 'utf-8');
+                    reader.onload = function (oFREvent) {
+                        var pointsTxt = oFREvent.target.result;
+                        $("#textOCR").val(pointsTxt);
+                    };
+                }
+            }
+        })
+    </script>
+    <script>
+        function wei() {
+            document.pay.action = "/predict";
+            document.pay.submit();
+        }
+
+        function zhi() {
+            document.pay.action = "/up_photo";
+            document.pay.submit();
+        }
+
+        function check_a() {
+            if (confirm("确定要退出系统吗？")) {
+                window.location.href = "/logout";
+            }
+        }
+    </script>
+</body>
+
+</html>

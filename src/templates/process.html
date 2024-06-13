@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>基于图文一致性的虚假新闻检测系统设计实现</title>
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#myNav").affix({
+                offset: {
+                    top: 125
+                }
+            });
+        });
+    </script>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    body {
+        background-color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .col-xs-3 {
+        margin: 20px auto;
+    }
+
+    .col-xs-3 ul li {
+        list-style-type: none;
+        line-height: 40px;
+        color: #ffffff;
+        margin-left: 40px;
+        width: 120px;
+        text-align: center;
+    }
+
+    .col-xs-3 ul {
+        display: flex;
+        background-color: #409EFF;
+        font-weight: 600;
+        height: 40px;
+    }
+
+    a {
+        color: #ffffff;
+        text-decoration: none;
+    }
+
+    .col-xs-3 ul li:hover {
+        background-color: #7cbdff;
+    }
+
+    .bk {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .bk img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .col-xs-9 {
+
+        /* Adjust the width as needed */
+        text-align: center;
+        margin-top: 30px;
+
+    }
+
+    .col-xs-9 form {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 30px;
+    }
+
+    .col-xs-9 form div {
+        width: 19%;
+        height: 100px;
+        background-color: #dedede;
+        color: #409EFF;
+        font-weight: 600;
+    }
+
+    h1 {
+        text-align: center;
+        font-family: 'Georgia', serif;
+        font-size: 28px;
+        color: #333;
+    }
+</style>
+
+<body data-spy="scroll" data-target="#myScrollspy">
+    <div class="container">
+        <div class="jumbotron">
+            <h1>基于图文一致性的虚假新闻检测系统设计实现</h1>
+        </div>
+        <div class="row">
+            <div class="col-xs-3" id="myScrollspy">
+                <ul class="nav" id="myNav">
+                    <li><a href="#section-3">内容预处理</a></li>
+                    <li><a href="/boot">返回首页</a></li>
+                </ul>
+            </div>
+            <div class="bk">
+                <img src="../static/3.png">
+            </div>
+            <div class="col-xs-9">
+                <h2 class="active" id="section-1">多模态内容预处理</h2>
+                <form name="pay" method="post" enctype="multipart/form-data">
+                    <div>
+                        文本：
+                        <p>{{context.tensor_text}}</p>
+                    </div>
+                    <div>
+                        掩码向量：
+                        <p>{{context.tensor_mask}}</p>
+                    </div>
+                    <div>
+                        图像：
+                        <p>{{context.tensor_image}}</p>
+                    </div>
+                    <div>
+                        ocr:
+                        <p>{{context.tensor_ocr}}</p>
+                    </div>
+                    <div>
+                        掩码向量：
+                        <p>{{context.tensor_mask_ocr}}</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

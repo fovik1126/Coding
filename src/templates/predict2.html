@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:text-align="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>基于图文一致性的虚假新闻检测系统设计实现</title>
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .col-xs-3 {
+            margin: 20px auto;
+        }
+
+        .col-xs-3 ul li {
+            list-style-type: none;
+            line-height: 40px;
+            color: #ffffff;
+            margin-left: 40px;
+            width: 120px;
+            text-align: center;
+        }
+
+        .col-xs-3 ul {
+            display: flex;
+            background-color: #409EFF;
+            font-weight: 600;
+            height: 40px;
+        }
+
+        a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .col-xs-3 ul li:hover {
+            background-color: #7cbdff;
+        }
+
+        .col-xs-9 {
+
+            height: 300px;
+            border: #409EFF solid 1px;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: 'Georgia', serif;
+            font-size: 28px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body data-spy="scroll" data-target="#myScrollspy">
+    <div class="container">
+        <div class="jumbotron">
+            <h1>基于图文一致性的虚假新闻检测系统设计实现</h1>
+        </div>
+        <div class="row">
+            <div class="col-xs-3" id="myScrollspy">
+                <ul class="nav" id="myNav">
+                    <li><a href="#section-3">新闻检测结果</a></li>
+                    <li><a href="/boot">返回首页</a></li>
+                </ul>
+            </div>
+            <h2 class="active" id="section-1" style="text-align: center;">检测结果展示</h2>
+            <div class="col-xs-9">
+                <form name="pay" method="post" enctype="multipart/form-data">
+                    <label><br>
+                        <p style="font-size: 20px;width: 180px" />
+                        检测结果:</p><br><br>
+                        <p style="font-size: 30px; color: crimson; text-align: center;">{{context.result_label}}</p>
+                    </label>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--图片上传-->
+
+
+    </script>
+</body>
+
+</html>
